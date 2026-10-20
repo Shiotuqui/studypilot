@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyPilot</title>
+  <meta name="description" content="StudyPilot — plan your courses, assignments and exams. Built with AI agents (Claude Code), Supabase, GitHub and Netlify." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">🧭</span> StudyPilot</div>
+    <div id="userbox" class="userbox hidden">
+      <span id="userEmail"></span>
+      <button id="signOutBtn" class="btn ghost small">Sign out</button>
+    </div>
+  </header>
+
+  <!-- ===== AUTH VIEW ===== -->
+  <main id="authView" class="auth hidden">
+    <section class="hero">
+      <p class="eyebrow">Your semester, on autopilot</p>
+      <h1>Every assignment.<br/>Every exam.<br/><em>One flight plan.</em></h1>
+      <p class="lede">Track deadlines across all your courses, see what's coming this week, and never get surprised by an exam again.</p>
+      <ul class="perks">
+        <li>📅 Deadlines sorted by urgency</li>
+        <li>🎯 Courses, priorities and progress at a glance</li>
+        <li>🔒 Private account — your data is yours only</li>
+      </ul>
+    </section>
+
+    <section class="card authcard">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-mode="signin" role="tab">Sign in</button>
+        <button class="tab" data-mode="signup" role="tab">Create account</button>
+      </div>
+      <form id="authForm" autocomplete="on">
+        <label>Email<input type="email" id="authEmail" required autocomplete="email" /></label>
+        <label>Password<input type="password" id="authPassword" required minlength="6" autocomplete="current-password" /></label>
+        <button type="submit" class="btn primary wide" id="authSubmit">Sign in</button>
+        <p id="authMsg" class="msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <!-- ===== APP VIEW ===== -->
+  <main id="appView" class="app hidden">
+    <section class="stats" aria-label="Summary">
+      <div class="stat"><span class="num" id="statWeek">0</span><span class="lbl">due in 7 days</span></div>
+      <div class="stat warn"><span class="num" id="statOverdue">0</span><span class="lbl">overdue</span></div>
+      <div class="stat"><span class="num" id="statOpen">0</span><span class="lbl">open tasks</span></div>
+      <div class="stat good">
+        <span class="num" id="statDone">0%</span><span class="lbl">completed</span>
+        <div class="bar"><div id="statBar"></div></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2 id="formTitle">Add a task</h2>
+        <form id="taskForm">
+          <label>What is it?<input id="fTitle" required maxlength="200" placeholder="e.g. Problem set 4" /></label>
+          <div class="row">
+            <label>Course<input id="fCourse" maxlength="80" list="courseList" placeholder="e.g. ISM 6427C" /></label>
+            <label>Type
+              <select id="fKind">
+                <option value="assignment">Assignment</option>
+                <option value="exam">Exam</option>
+                <option value="project">Project</option>
+                <option value="reading">Reading</option>
+              </select>
+            </label>
+          </div>
+          <div class="row">
+            <label>Due date<input type="date" id="fDue" /></label>
+            <label>Priority
+              <select id="fPriority">
+                <option value="1">High</option>
+                <option value="2" selected>Medium</option>
+                <option value="3">Low</option>
+              </select>
+            </label>
+          </div>
+          <label>Notes<textarea id="fNotes" rows="2" maxlength="2000" placeholder="Optional"></textarea></label>
+          <div class="row actions">
+            <button type="submit" class="btn primary" id="fSubmit">Add task</button>
+            <button type="button" class="btn ghost hidden" id="fCancel">Cancel edit</button>
+          </div>
+          <datalist id="courseList"></datalist>
+        </form>
+      </section>
+
+      <section class="card listcard">
+        <div class="listhead">
+          <h2>Flight plan</h2>
+          <div class="filters">
+            <select id="filterCourse" aria-label="Filter by course"><option value="">All courses</option></select>
+            <div class="seg" role="group" aria-label="Filter by status">
+              <button class="segbtn active" data-filter="open">Open</button>
+              <button class="segbtn" data-filter="overdue">Overdue</button>
+              <button class="segbtn" data-filter="done">Done</button>
+              <button class="segbtn" data-filter="all">All</button>
+            </div>
+          </div>
+        </div>
+        <ul id="taskList" class="tasks"></ul>
+        <p id="emptyMsg" class="empty hidden">Nothing here. Clear skies ✈️</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="setupView" class="setup hidden card">
+    <h2>Almost there</h2>
+    <p>Add your Supabase URL and publishable key to <code>config.js</code> to turn the app on.</p>
+  </div>
+
+  <footer class="foot">Built with AI agents — Claude Code · GitHub · Supabase · Netlify</footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
