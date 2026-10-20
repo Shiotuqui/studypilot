@@ -3,6 +3,6 @@
 // in schema.sql makes sure each user can only reach their own data.
 // NEVER put the secret / service_role key here.
 window.STUDYPILOT_CONFIG = {
-  SUPABASE_URL: "YOUR_SUPABASE_URL",
+  SUPABASE_URL: "https://hudrvqgreyneawkyxifc.supabase.co",
   SUPABASE_KEY: "sb_publishable_gaddThCUxal-1a38s9RVgw_N4075LBh",
 };
