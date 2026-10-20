@@ -4,5 +4,5 @@
 // NEVER put the secret / service_role key here.
 window.STUDYPILOT_CONFIG = {
   SUPABASE_URL: "YOUR_SUPABASE_URL",
-  SUPABASE_KEY: "YOUR_SUPABASE_PUBLISHABLE_KEY",
+  SUPABASE_KEY: "sb_publishable_gaddThCUxal-1a38s9RVgw_N4075LBh",
 };
